@@ -12,7 +12,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/watchlist")
-
+//@CrossOrigin(origins = "http://localhost:3000")
 public class WatchlistController {
 
     @Autowired
