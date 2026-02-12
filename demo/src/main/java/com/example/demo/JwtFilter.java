@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 }
             } catch(Exception e){
-                System.out.println("Invalid JWT token received : "+e.getMessage());
+                System.out.println("Invalid JWT token received : "+e.getMessage()+" "+token);
             }
 
         }

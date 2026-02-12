@@ -11,6 +11,7 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 		System.out.println("Hello");
 		System.out.println("Hii from backend!");
+		System.out.println("Upload files in the postman");
 	}
 
 }

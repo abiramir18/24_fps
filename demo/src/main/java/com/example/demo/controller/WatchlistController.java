@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.MovieRecord;
 import com.example.demo.model.WatchedDTO;
+import com.example.demo.model.WatchedMovieRecord;
 import com.example.demo.model.WatchlistRecord;
 import com.example.demo.service.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/watchlist")
-//@CrossOrigin(origins = "http://localhost:3000")
 public class WatchlistController {
 
     @Autowired
@@ -39,7 +39,15 @@ public class WatchlistController {
     }
 
     @GetMapping("/getWatchlist")
-    public ResponseEntity<List<WatchlistRecord>> getWatchlist(@RequestBody WatchedDTO watchlist){
-        return ResponseEntity.ok(watchlistService.getWatchlist(watchlist.getUsername()));
+    public ResponseEntity<List<MovieRecord>> getWatchlist(@RequestParam String username){
+
+        List<WatchlistRecord> watchlist = watchlistService.getWatchlist(username);
+//        if(watchedHistory.isEmpty()){
+//            return ResponseEntity.noContent().build();
+//        }
+        List<MovieRecord> moviesOnly = watchlist.stream()
+                .map(WatchlistRecord::getMovie) // Or .getMovie() depending on your field name
+                .toList();
+        return ResponseEntity.ok(moviesOnly);
     }
     }

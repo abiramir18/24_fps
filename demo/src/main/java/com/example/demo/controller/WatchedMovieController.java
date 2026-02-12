@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.MovieRecord;
 import com.example.demo.model.WatchedDTO;
 import com.example.demo.model.WatchedMovieRecord;
 import com.example.demo.service.WatchedMovieService;
@@ -11,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/watchedHistory")
-//@CrossOrigin(origins = "http://localhost:3000")
 public class WatchedMovieController{
     @Autowired
     public WatchedMovieService watchedMovieService;
@@ -61,12 +61,15 @@ public class WatchedMovieController{
 //    }
 
     @GetMapping("/user/getWatched")
-    public ResponseEntity<Object> getUserHistory(@RequestBody WatchedDTO watched){
-        List<WatchedMovieRecord> watchedHistory = watchedMovieService.getUserRecords(watched.getUsername());
-        if(watchedHistory.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(watchedHistory);
+    public ResponseEntity<List<MovieRecord>> getUserHistory(@RequestParam  String username){
+        List<WatchedMovieRecord> watchedHistory = watchedMovieService.getUserRecords(username);
+//        if(watchedHistory.isEmpty()){
+//            return ResponseEntity.noContent().build();
+//        }
+        List<MovieRecord> moviesOnly = watchedHistory.stream()
+                .map(WatchedMovieRecord::getMovie) // Or .getMovie() depending on your field name
+                .toList();
+        return ResponseEntity.ok(moviesOnly);
     }
 
 //    public ResponseEntity<List<WatchedMovieRecord>> getUserHistory(@PathVariable Long userId){
